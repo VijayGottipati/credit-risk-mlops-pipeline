@@ -93,27 +93,36 @@ pip install dvc dvc-gdrive
 
 ### One-time project setup
 
-From repo root:
+This repository **already includes** `dvc init`. If you cloned fresh and `.dvc` is missing, run once:
 
 ```powershell
-git init
 dvc init
 ```
 
-### Connect Google Drive
+### Connect Google Drive (fastest)
 
-1. Create a folder in **Google Drive** (e.g. `ML-project-dvc`).
-2. Open the folder in browser; copy the **folder ID** from the URL:
-   - URL looks like `https://drive.google.com/drive/folders/THIS_IS_THE_FOLDER_ID`
+1. Create a folder in **Google Drive** and copy its ID from the URL (the part after `/folders/`).
 
-3. Add remote (replace `FOLDER_ID`):
+2. From the **repo root** (`credit-risk-mlops-pipeline`), run:
 
 ```powershell
-dvc remote add -d gdrive_remote gdrive://FOLDER_ID
+.\scripts\setup_dvc_gdrive.ps1 -FolderId "PASTE_FOLDER_ID_HERE"
+```
+
+You can paste the **full folder URL**; the script extracts the ID.
+
+3. First `dvc push` opens a **browser** so you can sign in to Google (only you can do this step).
+
+### Connect Google Drive (manual commands)
+
+If you prefer not to use the script:
+
+```powershell
+dvc remote add -f -d gdrive_remote gdrive://FOLDER_ID
 dvc remote modify gdrive_remote gdrive_use_service_account false
 ```
 
-4. First `dvc push` will open a browser for Google OAuth (store token locally).
+Replace `FOLDER_ID` with your Drive folder ID.
 
 ### Track your data files
 
