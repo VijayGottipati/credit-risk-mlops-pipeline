@@ -6,6 +6,7 @@ colorTo: indigo
 sdk: docker
 app_port: 7860
 pinned: false
+short_description: FastAPI credit-risk scoring API (XGBoost), Docker-ready for Hugging Face Spaces.
 ---
 
 # Real-Time Credit Risk MLOps Project
@@ -107,6 +108,6 @@ flowchart LR
 
 Step-by-step checklist: [docs/PACKAGING.md](docs/PACKAGING.md)
 
-**Hugging Face Spaces (Docker):** [docs/HUGGINGFACE.md](docs/HUGGINGFACE.md) — live Space [vijaygottipati/credit-risk-mlops-pipeline](https://huggingface.co/spaces/vijaygottipati/credit-risk-mlops-pipeline)
+**Hugging Face Spaces (Docker):** step-by-step [docs/HF_SETUP_CHECKLIST.md](docs/HF_SETUP_CHECKLIST.md) · full guide [docs/HUGGINGFACE.md](docs/HUGGINGFACE.md) · Space [vijaygottipati/credit-risk-mlops-pipeline](https://huggingface.co/spaces/vijaygottipati/credit-risk-mlops-pipeline) · verify locally: `python -m scripts.verify_hf_space_ready`
 
 Architecture reference: [ARCHITECTURE.md](ARCHITECTURE.md)

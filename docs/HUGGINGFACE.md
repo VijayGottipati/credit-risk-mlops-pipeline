@@ -1,5 +1,7 @@
 # Hugging Face Spaces (Docker) Setup
 
+**Fast setup (checklist only):** [HF_SETUP_CHECKLIST.md](HF_SETUP_CHECKLIST.md)
+
 Your Space: **[vijaygottipati/credit-risk-mlops-pipeline](https://huggingface.co/spaces/vijaygottipati/credit-risk-mlops-pipeline)** (same name as the GitHub repo keeps URLs easy to remember.)
 
 Official reference: [Spaces — Docker](https://huggingface.co/docs/hub/spaces-sdks-docker)
