@@ -104,10 +104,21 @@ flowchart LR
 
 ---
 
-## First-time packaging (W&B, Slack, Drive, Hugging Face)
+## Live demo (Hugging Face)
 
-Step-by-step checklist: [docs/PACKAGING.md](docs/PACKAGING.md)
+- **Space:** [vijaygottipati/credit-risk-mlops-pipeline](https://huggingface.co/spaces/vijaygottipati/credit-risk-mlops-pipeline)
+- **OpenAPI / try it:** `https://vijaygottipati-credit-risk-mlops-pipeline.hf.space/docs`
+- **Health:** `https://vijaygottipati-credit-risk-mlops-pipeline.hf.space/health`
 
-**Hugging Face Spaces (Docker):** step-by-step [docs/HF_SETUP_CHECKLIST.md](docs/HF_SETUP_CHECKLIST.md) · full guide [docs/HUGGINGFACE.md](docs/HUGGINGFACE.md) · Space [vijaygottipati/credit-risk-mlops-pipeline](https://huggingface.co/spaces/vijaygottipati/credit-risk-mlops-pipeline) · verify locally: `python -m scripts.verify_hf_space_ready`
+Verify the repo locally before deploy: `python -m scripts.verify_hf_space_ready`
 
-Architecture reference: [ARCHITECTURE.md](ARCHITECTURE.md)
+## Secrets & optional integrations
+
+| Goal | Where |
+|------|--------|
+| Sync `main` → HF Space | GitHub repo **Settings → Secrets → Actions**: `HF_TOKEN` (HF token with write access) |
+| Experiment tracking | `WANDB_API_KEY` in Actions secrets and/or `.env` |
+| Drift alerts | `SLACK_WEBHOOK_URL` in Actions secrets |
+| DVC remote (optional) | Run `dvc remote modify --local gdrive gdrive_use_service_account true` and place a service-account JSON, or use another remote |
+
+GitHub → HF sync workflow: `.github/workflows/sync-huggingface.yml` (uses `git push --force` so GitHub stays source of truth).

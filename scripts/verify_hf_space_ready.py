@@ -40,7 +40,7 @@ def main() -> int:
         return 1
 
     print("OK: Dockerfile, README HF frontmatter, and api/main.py look ready for HF Spaces.")
-    print("Next: follow docs/HF_SETUP_CHECKLIST.md in the browser (connect GitHub repo).")
+    print("Next: in HF Space settings, connect this GitHub repo or push with HF_TOKEN (see README).")
     return 0
 
 
