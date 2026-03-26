@@ -1,6 +1,6 @@
 # Hugging Face Spaces (Docker) Setup
 
-Your Space: **[vijaygottipati/Credit-check](https://huggingface.co/spaces/vijaygottipati/Credit-check)** (Space name can differ from the GitHub repo name `credit-risk-mlops-pipeline`.)
+Your Space: **[vijaygottipati/credit-risk-mlops-pipeline](https://huggingface.co/spaces/vijaygottipati/credit-risk-mlops-pipeline)** (same name as the GitHub repo keeps URLs easy to remember.)
 
 Official reference: [Spaces — Docker](https://huggingface.co/docs/hub/spaces-sdks-docker)
 
@@ -13,7 +13,7 @@ Official reference: [Spaces — Docker](https://huggingface.co/docs/hub/spaces-s
 ## One-time Space configuration
 
 1. **Create / open the Space** → [Create new Space](https://huggingface.co/new-space).
-2. **Owner / name:** e.g. `vijaygottipati` / `Credit-check`.
+2. **Owner / name:** e.g. `vijaygottipati` / `credit-risk-mlops-pipeline`.
 3. **SDK:** **Docker** (not Gradio / not Python default).
 4. **Visibility:** Public (typical for portfolio).
 5. **Hardware:** CPU basic is enough; first **build** can take **several minutes** (pip + training).
@@ -62,8 +62,8 @@ A workflow can `git push` to `huggingface.co` using a **`HF_TOKEN`** secret. Tha
 
 Replace with your username/space name if different:
 
-- **API docs (Swagger):** `https://vijaygottipati-credit-check.hf.space/docs`
-- **Health:** `https://vijaygottipati-credit-check.hf.space/health`
+- **API docs (Swagger):** `https://vijaygottipati-credit-risk-mlops-pipeline.hf.space/docs`
+- **Health:** `https://vijaygottipati-credit-risk-mlops-pipeline.hf.space/health`
 
 Pattern: `https://<username>-<space-slug>.hf.space` (Space slug is usually lowercase with hyphens; confirm on your Space’s **App** tab if the URL differs.)
 

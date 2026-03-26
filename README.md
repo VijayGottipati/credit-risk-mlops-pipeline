@@ -107,6 +107,6 @@ flowchart LR
 
 Step-by-step checklist: [docs/PACKAGING.md](docs/PACKAGING.md)
 
-**Hugging Face Spaces (Docker):** [docs/HUGGINGFACE.md](docs/HUGGINGFACE.md) — live Space [vijaygottipati/Credit-check](https://huggingface.co/spaces/vijaygottipati/Credit-check)
+**Hugging Face Spaces (Docker):** [docs/HUGGINGFACE.md](docs/HUGGINGFACE.md) — live Space [vijaygottipati/credit-risk-mlops-pipeline](https://huggingface.co/spaces/vijaygottipati/credit-risk-mlops-pipeline)
 
 Architecture reference: [ARCHITECTURE.md](ARCHITECTURE.md)
