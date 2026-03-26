@@ -1,0 +1,98 @@
+schema: '2.0'
+stages:
+  ingest:
+    cmd: python -m src.data_ingest
+    deps:
+    - path: src/data_ingest.py
+      hash: md5
+      md5: 9b670f86e2f7327817e990ad13094c14
+      size: 3792
+    outs:
+    - path: data/raw/historical_credit_data.csv
+      hash: md5
+      md5: 72ecf038f114bfd48a066d18ad3308a6
+      size: 165778
+  simulate_live:
+    cmd: python -m src.simulate_live_data
+    deps:
+    - path: src/simulate_live_data.py
+      hash: md5
+      md5: b36ddc139058766db15c8dbdf7f9cf49
+      size: 1947
+    outs:
+    - path: data/raw/live_credit_applications.csv
+      hash: md5
+      md5: e57e934edd730a75827a0e5e7ae001fd
+      size: 107958
+  preprocess:
+    cmd: python -m src.preprocess
+    deps:
+    - path: data/raw/historical_credit_data.csv
+      hash: md5
+      md5: 72ecf038f114bfd48a066d18ad3308a6
+      size: 165778
+    - path: data/raw/live_credit_applications.csv
+      hash: md5
+      md5: e57e934edd730a75827a0e5e7ae001fd
+      size: 107958
+    - path: src/preprocess.py
+      hash: md5
+      md5: 8dfbd19c4f0d3600b1dff62656cc2bbb
+      size: 2701
+    outs:
+    - path: data/processed/live_ready.csv
+      hash: md5
+      md5: e57e934edd730a75827a0e5e7ae001fd
+      size: 107958
+    - path: data/processed/train_ready.csv
+      hash: md5
+      md5: 72ecf038f114bfd48a066d18ad3308a6
+      size: 165778
+  train:
+    cmd: python -m src.train
+    deps:
+    - path: data/processed/train_ready.csv
+      hash: md5
+      md5: 72ecf038f114bfd48a066d18ad3308a6
+      size: 165778
+    - path: src/train.py
+      hash: md5
+      md5: a840de3b14def542b7b002cf4b3e2f53
+      size: 3276
+    outs:
+    - path: artifacts/feature_columns.json
+      hash: md5
+      md5: e6d408cb3662c31025f020cd2edb65ea
+      size: 140
+    - path: artifacts/holdout_test.csv
+      hash: md5
+      md5: 1523259caf265b0b130f095cd6430012
+      size: 33247
+    - path: artifacts/model.joblib
+      hash: md5
+      md5: aa682c6cc677915fa53b1c39d02341d0
+      size: 328176
+    - path: artifacts/training_metadata.json
+      hash: md5
+      md5: 2c78da8d3c870406af65ca3e4f3946d3
+      size: 104
+  evaluate:
+    cmd: python -m src.evaluate
+    deps:
+    - path: artifacts/holdout_test.csv
+      hash: md5
+      md5: 1523259caf265b0b130f095cd6430012
+      size: 33247
+    - path: artifacts/model.joblib
+      hash: md5
+      md5: aa682c6cc677915fa53b1c39d02341d0
+      size: 328176
+    - path: src/evaluate.py
+      hash: md5
+      md5: 1275207782e470c10efb9680299930cb
+      size: 2439
+    outs:
+    - path: reports/metrics.json
+      hash: md5
+      md5: 182c4218d21b9af2ec4a18baf713dc65
+      size: 129
