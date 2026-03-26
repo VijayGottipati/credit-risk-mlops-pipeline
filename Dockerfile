@@ -3,6 +3,8 @@ FROM python:3.11-slim
 WORKDIR /app
 
 ENV PORT=7860
+# Smaller batch keeps HF Docker builds a bit faster (SIMULATE_BATCH_SIZE is read in simulate_live_data)
+ENV SIMULATE_BATCH_SIZE=150
 
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt

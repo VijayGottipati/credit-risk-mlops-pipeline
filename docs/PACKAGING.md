@@ -188,6 +188,8 @@ Repo → **Actions** → enable workflows if prompted. Scheduled `monitor.yml` r
 
 ## 6) Hugging Face Spaces (Docker + FastAPI)
 
+Full walkthrough (your Space URL, troubleshooting, logs): **[docs/HUGGINGFACE.md](HUGGINGFACE.md)**
+
 **What it is:** Free hosting for a public **Space** with a URL you can put on your CV.
 
 ### Create the Space

@@ -1,3 +1,13 @@
+---
+title: Credit Risk MLOps Pipeline
+emoji: 🏦
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+app_port: 7860
+pinned: false
+---
+
 # Real-Time Credit Risk MLOps Project
 
 ## Recruiter TL;DR
@@ -96,5 +106,7 @@ flowchart LR
 ## First-time packaging (W&B, Slack, Drive, Hugging Face)
 
 Step-by-step checklist: [docs/PACKAGING.md](docs/PACKAGING.md)
+
+**Hugging Face Spaces (Docker):** [docs/HUGGINGFACE.md](docs/HUGGINGFACE.md) — Space [vijaygottipati/credit-risk-mlops-pipeline](https://huggingface.co/spaces/vijaygottipati/credit-risk-mlops-pipeline)
 
 Architecture reference: [ARCHITECTURE.md](ARCHITECTURE.md)
