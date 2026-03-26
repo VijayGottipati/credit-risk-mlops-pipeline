@@ -6,7 +6,7 @@ colorTo: indigo
 sdk: docker
 app_port: 7860
 pinned: false
-short_description: FastAPI credit-risk scoring API (XGBoost), Docker-ready for Hugging Face Spaces.
+short_description: FastAPI + XGBoost credit-risk API; Docker deploy on HF.
 ---
 
 # Real-Time Credit Risk MLOps Project
