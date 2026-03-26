@@ -1,6 +1,6 @@
 # Hugging Face Spaces (Docker) Setup
 
-**Fast setup (checklist only):** [HF_SETUP_CHECKLIST.md](HF_SETUP_CHECKLIST.md)
+**Fast setup (checklist only):** [HF_SETUP_CHECKLIST.md](HF_SETUP_CHECKLIST.md) — includes **GitHub Actions + `HF_TOKEN`** because many users **do not** see “Repository” under Space Settings (that is normal).
 
 Your Space: **[vijaygottipati/credit-risk-mlops-pipeline](https://huggingface.co/spaces/vijaygottipati/credit-risk-mlops-pipeline)** (same name as the GitHub repo keeps URLs easy to remember.)
 

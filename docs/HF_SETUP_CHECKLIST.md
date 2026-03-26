@@ -1,53 +1,80 @@
-# Hugging Face Space — setup checklist (5 minutes)
+# Hugging Face Space — setup checklist
 
-Your repo is already **Docker-ready** (`Dockerfile`, `README` frontmatter, port `7860`). You only need to wire the Space to GitHub **once** in the browser.
+Your repo is **Docker-ready**. Hugging Face’s **documented** way to keep a Space in sync with GitHub is **`git push` to the Space** (often automated with **GitHub Actions**), **not** a “Repository” dropdown — many accounts **do not** show “connect GitHub repo” under Space Settings. Use **Method A** below.
 
 **Target Space:** [vijaygottipati/credit-risk-mlops-pipeline](https://huggingface.co/spaces/vijaygottipati/credit-risk-mlops-pipeline)
 
----
-
-## Before you start
-
-- [ ] Code is on GitHub: `VijayGottipati/credit-risk-mlops-pipeline`, branch **`main`**.
-- [ ] You are logged into [huggingface.co](https://huggingface.co) (same account that owns the Space).
+Official reference: [Managing Spaces with GitHub Actions](https://huggingface.co/docs/hub/spaces-github-actions)
 
 ---
 
-## Steps (do in order)
+## Method A — GitHub Actions + `HF_TOKEN` (recommended)
 
-1. **Open your Space**  
-   [https://huggingface.co/spaces/vijaygottipati/credit-risk-mlops-pipeline](https://huggingface.co/spaces/vijaygottipati/credit-risk-mlops-pipeline)
+This repo includes `.github/workflows/sync-huggingface.yml`. It pushes `main` to your Space on every push to `main`.
 
-2. **Settings → Repository** (left sidebar on the Space page).
+### One-time steps
 
-3. **Connect a repository**
-   - **User or organization:** `VijayGottipati` (or pick from list).
-   - **Repository:** `credit-risk-mlops-pipeline`.
-   - **Branch:** `main`.
-   - **Path:** `/` (repository root).
+1. **Create a Hugging Face access token** with **Write** permission:  
+   [https://huggingface.co/settings/tokens](https://huggingface.co/settings/tokens)
 
-4. **SDK** must be **Docker** (if you see “Gradio” or “Static”, switch Space type or recreate with Docker).
+2. **Add a GitHub Actions secret** on your repo:  
+   GitHub → **Settings** → **Secrets and variables** → **Actions** → **New repository secret**  
+   - **Name:** `HF_TOKEN`  
+   - **Value:** paste the HF token  
 
-5. **Save** → Hugging Face will start a **build** (several minutes the first time: `pip` + training in `Dockerfile`).
+3. **Push to `main`** (or open **Actions** → **Sync to Hugging Face Space** → **Run workflow**).  
+   The workflow runs and uploads your code to the Space; HF then **builds the Docker image**.
 
-6. **Watch build logs**  
-   Space → **Logs** tab until you see the server listening (Uvicorn).
+4. Open the Space → **Logs** and wait until the app is **Running**.
 
-7. **Smoke test**
-   - Health: `https://vijaygottipati-credit-risk-mlops-pipeline.hf.space/health`
-   - API docs: `https://vijaygottipati-credit-risk-mlops-pipeline.hf.space/docs`
+5. **Smoke test**
+   - `https://vijaygottipati-credit-risk-mlops-pipeline.hf.space/health`
+   - `https://vijaygottipati-credit-risk-mlops-pipeline.hf.space/docs`  
 
-   If the subdomain differs, use the **App** URL shown on your Space page.
+   Use the exact **App** URL from your Space page if it differs.
+
+### If the first sync fails (divergent history)
+
+On your **PC**, once:
+
+```bash
+git remote add space https://huggingface.co/spaces/vijaygottipati/credit-risk-mlops-pipeline.git
+# Create a HF token; use it when prompted or embed in URL (do not share the token)
+git push --force space main
+```
+
+Then rely on **Method A** for future pushes.
 
 ---
 
-## If the Space does not exist yet
+## Method B — Manual `git` only (no Actions)
 
-1. [Create a new Space](https://huggingface.co/new-space).
-2. Owner: **vijaygottipati**, name: **credit-risk-mlops-pipeline** (or any name; then use that URL in docs).
-3. **SDK:** **Docker**.
-4. **Visibility:** Public (typical).
-5. **Create** → then follow **Settings → Repository** as above.
+From your project folder:
+
+```bash
+git remote add space https://huggingface.co/spaces/vijaygottipati/credit-risk-mlops-pipeline.git
+git push space main
+```
+
+Use a [HF token](https://huggingface.co/settings/tokens) as the password when prompted (HTTPS), or:
+
+`git push https://USER:TOKEN@huggingface.co/spaces/vijaygottipati/credit-risk-mlops-pipeline.git main`
+
+Repeat **`git push space main`** whenever you want to update the Space.
+
+---
+
+## “I can’t find Repository in Space Settings”
+
+That is **normal**. The UI varies by account and product updates. You **do not** need that screen if you use **Method A** or **Method B**.
+
+If your Space UI *does* offer a GitHub connection under **Settings**, you can use it as an alternative — but **do not** also run a conflicting second sync without understanding it (avoid double pushes / confusing builds).
+
+---
+
+## Space must be Docker
+
+When you [create the Space](https://huggingface.co/new-space), choose **SDK: Docker**. This repo expects a root **`Dockerfile`**.
 
 ---
 
@@ -55,14 +82,16 @@ Your repo is already **Docker-ready** (`Dockerfile`, `README` frontmatter, port 
 
 | Symptom | What to try |
 |--------|-------------|
-| Timeout | Upgrade hardware in Space settings, or reduce training in `Dockerfile` / `src/train.py`. |
-| Wrong port | Ensure `CMD` uses `$PORT`; this repo already does. |
-| Missing model | `Dockerfile` trains at build; check **Logs** for Python errors. |
+| Workflow fails: `HF_TOKEN` | Add the **Actions** secret `HF_TOKEN` (see Method A). |
+| Timeout on HF | Smaller `SIMULATE_BATCH_SIZE` in `Dockerfile`, or upgrade Space hardware. |
+| 502 | **Logs** on the Space; confirm Uvicorn binds `0.0.0.0` and `$PORT`. |
 
 More detail: [HUGGINGFACE.md](HUGGINGFACE.md)
 
 ---
 
-## After setup
+## Local check (optional)
 
-Every **`git push` to `main`** on GitHub triggers a **new HF build** (when Repository is connected). No extra GitHub Action required for basic sync.
+```bash
+python -m scripts.verify_hf_space_ready
+```

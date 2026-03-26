@@ -1,0 +1,32 @@
+# Sync GitHub main → Hugging Face Space (official pattern from HF docs).
+# https://huggingface.co/docs/hub/spaces-github-actions
+#
+# Setup (one-time):
+# 1. Create a Hugging Face token with "Write" at https://huggingface.co/settings/tokens
+# 2. GitHub repo → Settings → Secrets and variables → Actions → New secret
+#    Name: HF_TOKEN   Value: (paste token)
+# 3. Push to main; this workflow runs and updates the Space build.
+
+name: Sync to Hugging Face Space
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  sync-to-hub:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          lfs: true
+
+      - name: Push to Hugging Face Space
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git push "https://vijaygottipati:${HF_TOKEN}@huggingface.co/spaces/vijaygottipati/credit-risk-mlops-pipeline" HEAD:main
