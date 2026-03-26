@@ -1,6 +1,10 @@
 name: Train Pipeline
 
 on:
+  # Continuous retraining on a schedule (default branch only). Edit cron as needed.
+  # UTC: 07:00 daily ≈ nightly retrain + fresh artifacts without a manual push.
+  schedule:
+    - cron: "0 7 * * *"
   workflow_dispatch:
     inputs:
       simulate_batch_size:
@@ -13,6 +17,7 @@ on:
       - "src/**"
       - "api/**"
       - "monitoring/**"
+      - "scripts/**"
       - "data/**"
       - "dvc.yaml"
       - "requirements.txt"

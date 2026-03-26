@@ -7,6 +7,12 @@
 - Shipped a production-style FastAPI service with validated inference endpoints and live prediction logging.
 - Automated the lifecycle with GitHub Actions (CI, train pipeline, scheduled monitoring, artifact retention).
 
+### Continuous runs (no manual button required)
+
+- **Train Pipeline** runs on a **daily schedule** (07:00 UTC) as well as on pushes to `main` when ML code changes. This is the “always-on” retrain loop for the portfolio; edit the `cron` in `.github/workflows/train.yml` if you want a different cadence.
+- **Drift Monitoring** runs **daily** (03:00 UTC) and can **dispatch** Train Pipeline when drift is detected (`monitor.yml`).
+- **Note:** GitHub only runs `schedule` on the **default branch** (`main`). Very inactive repos may pause scheduled workflows per [GitHub policy](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule).
+
 ## 3-Minute Demo
 
 Run one command:
