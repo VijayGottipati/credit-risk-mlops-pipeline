@@ -18,7 +18,41 @@ Official reference: [Spaces — Docker](https://huggingface.co/docs/hub/spaces-s
 4. **Visibility:** Public (typical for portfolio).
 5. **Hardware:** CPU basic is enough; first **build** can take **several minutes** (pip + training).
 
-## Connect the GitHub repo (recommended)
+## Connect GitHub ↔ Hugging Face (three patterns)
+
+You may read: *add the Space as a git remote, push once, then use a GitHub Action to sync.* That is **one** valid setup, but **not required** for this project.
+
+### A) Hugging Face pulls from GitHub (**recommended**)
+
+Keep **GitHub** as the only place you `git push` day-to-day. In the Space:
+
+1. **Settings** → **Repository** (or create the Space **from GitHub**).
+2. Select **`VijayGottipati/credit-risk-mlops-pipeline`**, branch **`main`**, path **`/`** (repo root).
+3. **Save**.
+
+Hugging Face then **builds from your GitHub repo** when `main` updates. You do **not** need a second `git remote` named `hf` for normal work, and you usually **do not** need a separate “sync” Action—HF’s integration is the sync.
+
+### B) HF Space as a **second** `git` remote (optional)
+
+For one-off pushes or workflows without the Repository link:
+
+```bash
+git remote add hf https://huggingface.co/spaces/vijaygottipati/credit-risk-mlops-pipeline.git
+# push requires HF token (Settings → Access Tokens)
+git push hf main
+```
+
+You still keep **`origin`** → GitHub. You must remember to push **both** when you want both sites updated.
+
+### C) GitHub Action pushes to HF (optional, advanced)
+
+A workflow can `git push` to `huggingface.co` using a **`HF_TOKEN`** secret. That is **redundant** if you already use **(A)**, because HF already rebuilds when GitHub changes. Use **(C)** only if you cannot use HF’s GitHub integration or you need extra pre-deploy steps.
+
+**Do not** combine **(A)** and **(C)** in a confusing way (double builds / races). Prefer **(A)** unless you have a concrete reason.
+
+---
+
+## Connect the repo in the Space UI (method A)
 
 1. Space → **Settings** → **Repository** (or create Space from GitHub).
 2. Point to: `VijayGottipati/credit-risk-mlops-pipeline`, branch **`main`**, path **`/`** (repo root).
