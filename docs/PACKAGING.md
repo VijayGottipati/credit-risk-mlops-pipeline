@@ -124,6 +124,24 @@ dvc remote modify gdrive_remote gdrive_use_service_account false
 
 Replace `FOLDER_ID` with your Drive folder ID.
 
+### Google blocked the sign-in (“This app is blocked” / “Access denied”)
+
+This is common. DVC talks to Drive through Google’s OAuth; the default client can show as **unverified**, or your **school/work Google Workspace** can block third‑party Drive access.
+
+**Try these in order:**
+
+1. **Use a personal Gmail account** (not a work/school account) when the browser opens, and make sure the Drive folder lives under that same account (or is shared appropriately).
+
+2. **On the scary screen**, look for **“Advanced”** → **“Go to … (unsafe)”** or **“Continue”**. Google shows that for any app not in their public verification program; for a **personal portfolio project**, proceeding is normal. ([Google’s OAuth warnings](https://developers.google.com/identity/protocols/oauth2/production-readiness/sensitive-scope-verification) apply mostly to public apps.)
+
+3. **Workspace / school account:** Your admin may block “Drive API” or “third‑party apps.” You cannot fix that from DVC alone. Options: ask IT for an exception, use **personal Gmail + a folder in that account**, or skip Drive (see below).
+
+4. **Service account (advanced):** DVC can use a **Google Cloud service account** JSON key and shared folder access instead of your user login. See [DVC Google Drive remote](https://dvc.org/doc/user-guide/data-management/remote-storage/google-drive#service-account) and set `gdrive_use_service_account true` plus the credentials path. Use only if you are comfortable with GCP IAM.
+
+5. **Skip Drive for the portfolio:** Your project already reproduces data via **`dvc repro`** / scripts. For your CV you can say **“DVC pipeline + Git-tracked `dvc.lock`”** and host large blobs on **GitHub Actions artifacts**, **Hugging Face**, or **Cloudflare R2** later—Drive is optional.
+
+After any successful auth, run `dvc push` again from the repo root.
+
 ### Track your data files
 
 After data exists under `data/`:
