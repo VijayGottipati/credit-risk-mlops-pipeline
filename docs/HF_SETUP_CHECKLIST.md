@@ -33,17 +33,16 @@ This repo includes `.github/workflows/sync-huggingface.yml`. It pushes `main` to
 
    Use the exact **App** URL from your Space page if it differs.
 
-### If the first sync fails (divergent history)
+### If you saw “rejected (fetch first)” / non-fast-forward
 
-On your **PC**, once:
+The Space’s git history (e.g. a README created on huggingface.co) does not match GitHub’s. The workflow uses **`git push --force`** so **GitHub `main` wins**. Re-run **Actions → Sync to Hugging Face Space** after pulling the latest workflow.
+
+To do the same locally once:
 
 ```bash
 git remote add space https://huggingface.co/spaces/vijaygottipati/credit-risk-mlops-pipeline.git
-# Create a HF token; use it when prompted or embed in URL (do not share the token)
 git push --force space main
 ```
-
-Then rely on **Method A** for future pushes.
 
 ---
 
