@@ -1,0 +1,15 @@
+fastapi
+uvicorn[standard]
+pandas
+numpy
+scikit-learn
+xgboost
+evidently
+wandb
+python-dotenv
+requests
+pytest
+httpx
+ruff
+dvc
+dvc-gdrive

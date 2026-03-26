@@ -1,0 +1,44 @@
+stages:
+  ingest:
+    cmd: python -m src.data_ingest
+    deps:
+      - src/data_ingest.py
+    outs:
+      - data/raw/historical_credit_data.csv
+
+  simulate_live:
+    cmd: python -m src.simulate_live_data
+    deps:
+      - src/simulate_live_data.py
+    outs:
+      - data/raw/live_credit_applications.csv
+
+  preprocess:
+    cmd: python -m src.preprocess
+    deps:
+      - src/preprocess.py
+      - data/raw/historical_credit_data.csv
+      - data/raw/live_credit_applications.csv
+    outs:
+      - data/processed/train_ready.csv
+      - data/processed/live_ready.csv
+
+  train:
+    cmd: python -m src.train
+    deps:
+      - src/train.py
+      - data/processed/train_ready.csv
+    outs:
+      - artifacts/model.joblib
+      - artifacts/feature_columns.json
+      - artifacts/training_metadata.json
+      - artifacts/holdout_test.csv
+
+  evaluate:
+    cmd: python -m src.evaluate
+    deps:
+      - src/evaluate.py
+      - artifacts/model.joblib
+      - artifacts/holdout_test.csv
+    outs:
+      - reports/metrics.json

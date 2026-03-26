@@ -1,0 +1,80 @@
+name: Train Pipeline
+
+on:
+  workflow_dispatch:
+    inputs:
+      simulate_batch_size:
+        description: "Number of synthetic live applications to generate"
+        required: false
+        default: "250"
+  push:
+    branches: [main]
+    paths:
+      - "src/**"
+      - "api/**"
+      - "monitoring/**"
+      - "data/**"
+      - "dvc.yaml"
+      - "requirements.txt"
+      - ".github/workflows/train.yml"
+
+concurrency:
+  group: train-pipeline-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  train:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      WANDB_API_KEY: ${{ secrets.WANDB_API_KEY }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+          cache-dependency-path: requirements.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Ingest historical data
+        run: python -m src.data_ingest
+
+      - name: Simulate live batch
+        run: python -m src.simulate_live_data
+        env:
+          SIMULATE_BATCH_SIZE: ${{ github.event.inputs.simulate_batch_size }}
+
+      - name: Preprocess
+        run: python -m src.preprocess
+
+      - name: Train
+        run: python -m src.train
+
+      - name: Evaluate
+        run: python -m src.evaluate
+
+      - name: Upload model artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: model-artifacts
+          path: |
+            artifacts/model.joblib
+            artifacts/feature_columns.json
+            artifacts/training_metadata.json
+            artifacts/holdout_test.csv
+          if-no-files-found: warn
+
+      - name: Upload evaluation report
+        uses: actions/upload-artifact@v4
+        with:
+          name: evaluation-report
+          path: reports/metrics.json
+          if-no-files-found: warn
