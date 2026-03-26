@@ -47,6 +47,13 @@ def run_live_data_simulation(batch_size: int = 250) -> None:
     print(f"Appended {len(batch_df)} rows to {LIVE_DATA_PATH}.")
 
 
+def _batch_size_from_env(default: int = 250) -> int:
+    """Parse SIMULATE_BATCH_SIZE; empty or missing uses default (GitHub Actions sets '' on push)."""
+    raw = os.getenv("SIMULATE_BATCH_SIZE", "").strip()
+    if not raw:
+        return default
+    return int(raw)
+
+
 if __name__ == "__main__":
-    batch_size = int(os.getenv("SIMULATE_BATCH_SIZE", "250"))
-    run_live_data_simulation(batch_size=batch_size)
+    run_live_data_simulation(batch_size=_batch_size_from_env())

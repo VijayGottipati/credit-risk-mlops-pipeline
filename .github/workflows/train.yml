@@ -50,7 +50,8 @@ jobs:
       - name: Simulate live batch
         run: python -m src.simulate_live_data
         env:
-          SIMULATE_BATCH_SIZE: ${{ github.event.inputs.simulate_batch_size }}
+          # workflow_dispatch has inputs; push events do not — avoid empty env var
+          SIMULATE_BATCH_SIZE: ${{ github.event.inputs.simulate_batch_size || '250' }}
 
       - name: Preprocess
         run: python -m src.preprocess
